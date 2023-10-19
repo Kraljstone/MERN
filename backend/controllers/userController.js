@@ -46,7 +46,7 @@ export const registerUser = asyncHandler(async (req, res) => {
 
   if (user) {
     generateToken(res, user._id);
-    res.status(201).json({
+    return res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -78,15 +78,15 @@ export const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    res.json({
+    return res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
     });
-  } else {
-    res.status(404);
-    throw new Error('User not found');
   }
+
+  res.status(404);
+  throw new Error('User not found');
 });
 
 // @desc    Update user profile
@@ -106,13 +106,13 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
 
     const updatedUser = await user.save();
 
-    res.json({
+    return res.json({
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
     });
-  } else {
-    res.status(404);
-    throw new Error('User not found');
   }
+
+  res.status(404);
+  throw new Error('User not found');
 });
