@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
 const port = process.env.PORT || 8000;
 import userRoutes from './routes/userRoutes.js';
+import posts from './routes/posts.js';
 
 connectDB();
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/api/users', userRoutes);
+app.use('/api/posts', posts);
 
 app.get('/', (req, res) => {
   res.send('Server is ready');
