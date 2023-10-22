@@ -2,16 +2,73 @@ import { Card } from 'react-bootstrap';
 import classes from './Post.module.css';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import {
+  useDeletePostMutation,
+  useLikePostMutation,
+} from '../../../slices/postsApiSlice';
+import { toast } from 'react-toastify';
+import { useDispatch,  } from 'react-redux';
+import { setCredentials } from '../../../slices/authSlice';
 
-function Post({ post }) {
-  const { createdAt, creator, likeCount, message, selectedFile, tags, title } =
-    post;
+
+function Post({ post, setCurrentID }) {
+  const {
+    createdAt,
+    creator,
+    likeCount,
+    message,
+    selectedFile,
+    tags,
+    title,
+    _id,
+  } = post;
+
+  const [deletePost] = useDeletePostMutation();
+  const [likePost] = useLikePostMutation();
+  const dispatch = useDispatch();
+
+
+
+  const deletePostHandler = async () => {
+    try {
+      const res = await deletePost(_id).unwrap();
+      return dispatch(setCredentials({ ...res }));
+    } catch (err) {
+      return toast.error(err?.data?.message || err?.error);
+    }
+  };
+
+  const likePostHandler = async (e) => {
+    e.preventDefault();
+
+    if (_id) {
+      try {
+        const res = await likePost({
+          id: _id,
+          data: likeCount,
+        }).unwrap();
+        return dispatch(setCredentials({ ...res }));
+      } catch (err) {
+        return toast.error(err?.data?.message || err?.error);
+      }
+    }
+  };
 
   return (
     <Card style={{ width: '18rem' }}>
       <div className={classes.creator}>
-        <h5>{creator}</h5>
-        <p>{moment(createdAt).fromNow()}</p>
+        <div>
+          <h5>{creator}</h5>
+          <p>{moment(createdAt)?.fromNow()}</p>
+        </div>
+        <p
+          className={classes.moreBtn}
+          onClick={() => {
+            setCurrentID(_id);
+          }}
+        >
+          ...
+        </p>
       </div>
 
       <Card.Img
@@ -27,8 +84,12 @@ function Post({ post }) {
         <Card.Title>{title}</Card.Title>
         <Card.Text>{message}</Card.Text>
         <div className='d-flex justify-content-between '>
-          <a className='text-decoration-none' href='#'>LIKE {likeCount}</a>
-          <a className='text-decoration-none' href='#'>DELETE</a>
+          <p className={classes.deleteBtn} onClick={likePostHandler}>
+            LIKE {likeCount}
+          </p>
+          <p className={classes.deleteBtn} onClick={deletePostHandler}>
+            DELETE
+          </p>
         </div>
       </Card.Body>
     </Card>
@@ -39,12 +100,14 @@ export default Post;
 
 Post.propTypes = {
   post: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    creator: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-    selectedFile: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    likeCount: PropTypes.number.isRequired,
-  }).isRequired,
+    title: PropTypes.string,
+    creator: PropTypes.string,
+    createdAt: PropTypes.string,
+    message: PropTypes.string,
+    _id: PropTypes.string,
+    selectedFile: PropTypes.string,
+    tags: PropTypes.arrayOf(PropTypes.string),
+    likeCount: PropTypes.number,
+  }),
+  setCurrentID: PropTypes.func,
 };

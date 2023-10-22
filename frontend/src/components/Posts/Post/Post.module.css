@@ -65,5 +65,27 @@
   top: 10px;
   left: 10px;
   z-index: 2;
-  color: whitesmoke;
+  color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.moreBtn {
+  font-size: 48px;
+  margin-top: -36px;
+}
+
+.moreBtn:hover {
+  cursor: pointer;
+  border-radius: 50%;
+  color: rgb(0, 0, 0);
+}
+
+.deleteBtn {
+  text-decoration: none;
+}
+
+.deleteBtn:hover {
+  cursor: pointer;
 }

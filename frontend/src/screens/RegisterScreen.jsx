@@ -19,7 +19,7 @@ const RegisterScreen = () => {
 
   const [register, { isLoading }] = useRegisterMutation();
 
-  const { userInfo } = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state?.auth);
 
   useEffect(() => {
     if (userInfo) {
@@ -28,17 +28,17 @@ const RegisterScreen = () => {
   }, [navigate, userInfo]);
 
   const submitHandler = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
 
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
+      toast?.error('Passwords do not match');
     } else {
       try {
-        const res = await register({ name, email, password }).unwrap();
+        const res = await register({ name, email, password })?.unwrap();
         dispatch(setCredentials({ ...res }));
         navigate('/');
       } catch (err) {
-        toast.error(err?.data?.message || err.error);
+        toast?.error(err?.data?.message || err?.error);
       }
     }
   };
@@ -52,7 +52,7 @@ const RegisterScreen = () => {
             type='name'
             placeholder='Enter name'
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setName(e?.target?.value)}
           ></Form.Control>
         </Form.Group>
 
@@ -62,7 +62,7 @@ const RegisterScreen = () => {
             type='email'
             placeholder='Enter email'
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e?.target?.value)}
           ></Form.Control>
         </Form.Group>
 
@@ -72,7 +72,7 @@ const RegisterScreen = () => {
             type='password'
             placeholder='Enter password'
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e?.target?.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group className='my-2' controlId='confirmPassword'>
@@ -81,7 +81,7 @@ const RegisterScreen = () => {
             type='password'
             placeholder='Confirm password'
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => setConfirmPassword(e?.target?.value)}
           ></Form.Control>
         </Form.Group>
 

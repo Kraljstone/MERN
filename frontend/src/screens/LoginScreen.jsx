@@ -17,7 +17,7 @@ const LoginScreen = () => {
 
   const [login, { isLoading }] = useLoginMutation();
 
-  const { userInfo } = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state?.auth);
 
   useEffect(() => {
     if (userInfo) {
@@ -26,13 +26,13 @@ const LoginScreen = () => {
   }, [navigate, userInfo]);
 
   const submitHandler = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     try {
-      const res = await login({ email, password }).unwrap();
+      const res = await login({ email, password })?.unwrap();
       dispatch(setCredentials({ ...res }));
       navigate('/');
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      toast?.error(err?.data?.message || err?.error);
     }
   };
 
@@ -47,7 +47,7 @@ const LoginScreen = () => {
             type='email'
             placeholder='Enter email'
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e?.target?.value)}
           ></Form.Control>
         </Form.Group>
 
@@ -57,7 +57,7 @@ const LoginScreen = () => {
             type='password'
             placeholder='Enter password'
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e?.target?.value)}
           ></Form.Control>
         </Form.Group>
         {isLoading && <Loader />}

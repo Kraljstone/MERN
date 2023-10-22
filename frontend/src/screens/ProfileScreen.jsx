@@ -20,26 +20,26 @@ const ProfileScreen = () => {
   const [updateProfile, { isLoading }] = useUpdateUserMutation();
 
   useEffect(() => {
-    setName(userInfo.name);
-    setEmail(userInfo.email);
-  }, [userInfo.email, userInfo.name]);
+    setName(userInfo?.name);
+    setEmail(userInfo?.email);
+  }, [userInfo?.email, userInfo?.name]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
+      toast?.error('Passwords do not match');
     } else {
       try {
         const res = await updateProfile({
-          _id: userInfo._id,
+          _id: userInfo?._id,
           name,
           email,
           password,
-        }).unwrap();
+        })?.unwrap();
         dispatch(setCredentials(res));
-        toast.success('Profile updated successfully');
+        toast?.success('Profile updated successfully');
       } catch (err) {
-        toast.error(err?.data?.message || err.error);
+        toast.error(err?.data?.message || err?.error);
       }
     }
   };
@@ -54,7 +54,7 @@ const ProfileScreen = () => {
             type='name'
             placeholder='Enter name'
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setName(e?.target?.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group className='my-2' controlId='email'>
@@ -63,7 +63,7 @@ const ProfileScreen = () => {
             type='email'
             placeholder='Enter email'
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e?.target?.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group className='my-2' controlId='password'>
@@ -72,7 +72,7 @@ const ProfileScreen = () => {
             type='password'
             placeholder='Enter password'
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e?.target?.value)}
           ></Form.Control>
         </Form.Group>
 
@@ -82,7 +82,7 @@ const ProfileScreen = () => {
             type='password'
             placeholder='Confirm password'
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => setConfirmPassword(e?.target?.value)}
           ></Form.Control>
         </Form.Group>
 
