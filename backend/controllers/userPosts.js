@@ -9,6 +9,18 @@ export const getPosts = asyncHandler(async (req, res) => {
   }
 
   res.status(404);
+  throw new Error('Posts not found');
+});
+
+export const getPost = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  if (id) {
+    const post = await PostMessage.findById(id);
+
+    res.status(200).json(post);
+  }
+  res.status(404);
   throw new Error('Post not found');
 });
 

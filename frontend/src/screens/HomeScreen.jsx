@@ -3,20 +3,36 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Posts from '../components/Posts/Posts';
 import Form from '../components/Form/Form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPostSuccess } from '../slices/postSlice';
+import { useGetPostsQuery } from '../slices/postsApiSlice';
 
 const HomeScreen = () => {
   const [currentID, setCurrentID] = useState(null);
-  
+  const { postInfo } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
+  const { data } = useGetPostsQuery();
+
+  useEffect(() => {
+    if (data) {
+      dispatch(fetchPostSuccess(data));
+    }
+  }, [currentID, dispatch, data]);
+
   return (
     <Container fluid>
       <Container>
         <Row>
           <Col xs={12} sm={7}>
-            <Posts setCurrentID={setCurrentID} />
+            <Posts data={postInfo} setCurrentID={setCurrentID} />
           </Col>
           <Col xs={12} sm={4}>
-            <Form currentID={currentID} setCurrentID={setCurrentID} />
+            <Form
+              currentID={currentID}
+              setCurrentID={setCurrentID}
+              data={postInfo}
+            />
           </Col>
         </Row>
       </Container>

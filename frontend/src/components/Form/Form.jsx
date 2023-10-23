@@ -7,10 +7,9 @@ import {
   useSendPostsMutation,
   useUpdatePostMutation,
 } from '../../slices/postsApiSlice';
-import { setCredentials } from '../../slices/authSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useGetPostsQuery } from '../../slices/postsApiSlice';
+import { updatePostSuccess, createPostSuccess } from '../../slices/postSlice';
 
 function PostForm({ currentID, setCurrentID }) {
   const [postData, setPostData] = useState({
@@ -23,16 +22,19 @@ function PostForm({ currentID, setCurrentID }) {
 
   const [sendPosts] = useSendPostsMutation();
   const [updatePost] = useUpdatePostMutation();
-  const { data } = useGetPostsQuery();
   const dispatch = useDispatch();
-
-  const post = data?.find((p) => p?._id === currentID);
+  const post = useSelector((state) =>
+    currentID
+      ? Array.isArray(state.post.postInfo) &&
+        state.post.postInfo.find((message) => message._id === currentID)
+      : null
+  );
 
   useEffect(() => {
     if (post) {
       setPostData(post);
     }
-  }, [post, currentID,]);
+  }, [post]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -43,20 +45,22 @@ function PostForm({ currentID, setCurrentID }) {
           id: currentID,
           data: postData,
         }).unwrap();
-        clear();
-        return dispatch(setCredentials({ ...res }));
+        dispatch(updatePostSuccess({ ...res }));
       } catch (err) {
-        return toast.error(err?.data?.message || err?.error);
+        toast.error(err?.data?.message || err?.error);
       }
+
+      return;
     }
 
     try {
       const res = await sendPosts({ ...postData }).unwrap();
-      dispatch(setCredentials({ ...res }));
-      clear();
+      dispatch(createPostSuccess({ ...res }));
     } catch (err) {
       toast.error(err?.data?.message || err?.error);
     }
+
+    clear();
   };
 
   const clear = () => {

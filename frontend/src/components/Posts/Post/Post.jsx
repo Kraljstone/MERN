@@ -7,9 +7,8 @@ import {
   useLikePostMutation,
 } from '../../../slices/postsApiSlice';
 import { toast } from 'react-toastify';
-import { useDispatch,  } from 'react-redux';
-import { setCredentials } from '../../../slices/authSlice';
-
+import { useDispatch } from 'react-redux';
+import { likePostSuccess, deletePostSuccess } from '../../../slices/postSlice';
 
 function Post({ post, setCurrentID }) {
   const {
@@ -27,27 +26,23 @@ function Post({ post, setCurrentID }) {
   const [likePost] = useLikePostMutation();
   const dispatch = useDispatch();
 
-
-
   const deletePostHandler = async () => {
     try {
-      const res = await deletePost(_id).unwrap();
-      return dispatch(setCredentials({ ...res }));
+      await deletePost(_id).unwrap();
+      return dispatch(deletePostSuccess(_id));
     } catch (err) {
       return toast.error(err?.data?.message || err?.error);
     }
   };
 
-  const likePostHandler = async (e) => {
-    e.preventDefault();
-
+  const likePostHandler = async () => {
     if (_id) {
       try {
         const res = await likePost({
           id: _id,
           data: likeCount,
         }).unwrap();
-        return dispatch(setCredentials({ ...res }));
+        return dispatch(likePostSuccess({ ...res }));
       } catch (err) {
         return toast.error(err?.data?.message || err?.error);
       }
