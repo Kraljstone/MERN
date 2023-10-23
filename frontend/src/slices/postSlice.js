@@ -30,7 +30,6 @@ const postsSlice = createSlice({
       }
     },
     deletePostStore: (state, action) => {
-      console.log(action.payload);
       const postId = action.payload;
       state.postInfo = state.postInfo.filter((post) => post._id !== postId);
     },
