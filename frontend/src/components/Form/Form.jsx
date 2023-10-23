@@ -9,7 +9,7 @@ import {
 } from '../../slices/postsApiSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { updatePostSuccess, createPostSuccess } from '../../slices/postSlice';
+import { updatePostStore, createPostStore } from '../../slices/postSlice';
 
 function PostForm({ currentID, setCurrentID }) {
   const [postData, setPostData] = useState({
@@ -45,7 +45,7 @@ function PostForm({ currentID, setCurrentID }) {
           id: currentID,
           data: postData,
         }).unwrap();
-        dispatch(updatePostSuccess({ ...res }));
+        dispatch(updatePostStore({ ...res }));
       } catch (err) {
         toast.error(err?.data?.message || err?.error);
       }
@@ -55,7 +55,7 @@ function PostForm({ currentID, setCurrentID }) {
 
     try {
       const res = await sendPosts({ ...postData }).unwrap();
-      dispatch(createPostSuccess({ ...res }));
+      dispatch(createPostStore({ ...res }));
     } catch (err) {
       toast.error(err?.data?.message || err?.error);
     }

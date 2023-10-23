@@ -8,7 +8,7 @@ import {
 } from '../../../slices/postsApiSlice';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { likePostSuccess, deletePostSuccess } from '../../../slices/postSlice';
+import { likePostStore, deletePostStore } from '../../../slices/postSlice';
 
 function Post({ post, setCurrentID }) {
   const {
@@ -29,7 +29,7 @@ function Post({ post, setCurrentID }) {
   const deletePostHandler = async () => {
     try {
       await deletePost(_id).unwrap();
-      return dispatch(deletePostSuccess(_id));
+      return dispatch(deletePostStore(_id));
     } catch (err) {
       return toast.error(err?.data?.message || err?.error);
     }
@@ -42,7 +42,7 @@ function Post({ post, setCurrentID }) {
           id: _id,
           data: likeCount,
         }).unwrap();
-        return dispatch(likePostSuccess({ ...res }));
+        return dispatch(likePostStore({ ...res }));
       } catch (err) {
         return toast.error(err?.data?.message || err?.error);
       }

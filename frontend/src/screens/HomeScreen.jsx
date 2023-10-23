@@ -5,7 +5,7 @@ import Posts from '../components/Posts/Posts';
 import Form from '../components/Form/Form';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPostSuccess } from '../slices/postSlice';
+import { fetchPostStore } from '../slices/postSlice';
 import { useGetPostsQuery } from '../slices/postsApiSlice';
 
 const HomeScreen = () => {
@@ -16,7 +16,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     if (data) {
-      dispatch(fetchPostSuccess(data));
+      dispatch(fetchPostStore(data));
     }
   }, [currentID, dispatch, data]);
 

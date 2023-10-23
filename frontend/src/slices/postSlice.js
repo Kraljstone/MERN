@@ -8,10 +8,10 @@ const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    createPostSuccess: (state, action) => {
+    createPostStore: (state, action) => {
       state.postInfo.push(action.payload);
     },
-    updatePostSuccess: (state, action) => {
+    updatePostStore: (state, action) => {
       const updatedPost = action.payload;
       const postIndex = state.postInfo.findIndex(
         (post) => post._id === updatedPost._id
@@ -20,7 +20,7 @@ const postsSlice = createSlice({
         state.postInfo[postIndex] = updatedPost;
       }
     },
-    likePostSuccess: (state, action) => {
+    likePostStore: (state, action) => {
       const likedPost = action.payload;
       const postIndex = state.postInfo.findIndex(
         (post) => post._id === likedPost._id
@@ -29,24 +29,24 @@ const postsSlice = createSlice({
         state.postInfo[postIndex] = likedPost;
       }
     },
-    deletePostSuccess: (state, action) => {
+    deletePostStore: (state, action) => {
       console.log(action.payload);
       const postId = action.payload;
       state.postInfo = state.postInfo.filter((post) => post._id !== postId);
     },
 
-    fetchPostSuccess: (state, action) => {
+    fetchPostStore: (state, action) => {
       state.postInfo = action.payload;
     },
   },
 });
 
 export const {
-  createPostSuccess,
-  updatePostSuccess,
-  likePostSuccess,
-  deletePostSuccess,
-  fetchPostSuccess,
+  createPostStore,
+  updatePostStore,
+  likePostStore,
+  deletePostStore,
+  fetchPostStore,
 } = postsSlice.actions;
 
 export default postsSlice?.reducer;

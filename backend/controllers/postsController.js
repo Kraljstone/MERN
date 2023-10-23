@@ -2,6 +2,10 @@ import mongoose from 'mongoose';
 import PostMessage from '../models/postMessage.js';
 import asyncHandler from 'express-async-handler';
 
+// @desc    Fetch all posts
+// @route   GET /api/posts
+// @access  Private
+
 export const getPosts = asyncHandler(async (req, res) => {
   const postMessage = await PostMessage.find();
   if (postMessage) {
@@ -11,6 +15,10 @@ export const getPosts = asyncHandler(async (req, res) => {
   res.status(404);
   throw new Error('Posts not found');
 });
+
+// @desc    Fetch single post
+// @route   GET /api/posts/:id
+// @access  Private
 
 export const getPost = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -23,6 +31,10 @@ export const getPost = asyncHandler(async (req, res) => {
   res.status(404);
   throw new Error('Post not found');
 });
+
+// @desc    Creating Post
+// @route   POST /api/posts
+// @access  Private
 
 export const createPost = asyncHandler(async (req, res) => {
   const post = req.body;
@@ -38,6 +50,10 @@ export const createPost = asyncHandler(async (req, res) => {
   throw new Error('Invalid post data');
 });
 
+// @desc    Update post by editing
+// @route   PATCH /api/posts/:id
+// @access  Private
+
 export const updatePost = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { title, message, creator, selectedFile, tags } = req.body;
@@ -52,6 +68,10 @@ export const updatePost = asyncHandler(async (req, res) => {
   res.status(200).json(updatedPost);
 });
 
+// @desc    Delete post
+// @route   DELETE /api/posts/id
+// @access  Private
+
 export const deletePost = async (req, res) => {
   const { id } = req.params;
 
@@ -60,8 +80,12 @@ export const deletePost = async (req, res) => {
 
   await PostMessage.findByIdAndRemove(id);
 
-  res.json({ message: 'Post deleted successfully.' });
+  res.status(202).json({ message: 'Post deleted successfully.' });
 };
+
+// @desc    Post likes
+// @route   PUT /api/posts/:id/likePost
+// @access  Private
 
 export const likePost = async (req, res) => {
   const { id } = req.params;
