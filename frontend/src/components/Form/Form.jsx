@@ -45,7 +45,7 @@ function PostForm({ currentID, setCurrentID }) {
           id: currentID,
           data: postData,
         }).unwrap();
-        dispatch(updatePostStore({ ...res }));
+        dispatch(updatePostStore({ ...res, likeCount: post.likeCount }));
       } catch (err) {
         toast.error(err?.data?.message || err?.error);
       }

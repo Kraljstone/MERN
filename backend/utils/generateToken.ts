@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken';
+import { Response } from 'express';
 
-export const generateToken = (res, userID) => {
-  const token = jwt.sign({ userID }, process.env.JWT_SECRET, {
+export const generateToken = (res: Response, userID: object): void => {
+  const token = jwt.sign({ userID }, process.env.JWT_SECRET!, {
     expiresIn: '30d',
-  });
+  }) as string;
 
   res.cookie('jwt', token, {
     httpOnly: true,

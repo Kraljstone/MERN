@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import { userSchema } from './userModel.interface';
 
-const userSchema = mongoose.Schema(
+const { Schema } = mongoose;
+
+const userSchema = new Schema<userSchema>(
   {
     name: {
       type: String,
@@ -18,7 +21,7 @@ const userSchema = mongoose.Schema(
     },
   },
   {
-    timestamp: true,
+    timestamps: true,
   }
 );
 
@@ -31,7 +34,7 @@ userSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-userSchema.methods.matchPassword = async function (enteredPassword) {
+userSchema.methods.matchPassword = async function (enteredPassword: string) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

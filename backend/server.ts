@@ -1,15 +1,15 @@
-import express from 'express';
+import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
-import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+import { notFound, errorHandler } from './middleware/errorMiddleware';
 import cookieParser from 'cookie-parser';
-import connectDB from './config/db.js';
+import connectDB from './config/db';
 const port = process.env.PORT || 8000;
-import userRoutes from './routes/userRoutes.js';
-import postRoutes from './routes/postRoutes.js';
+import userRoutes from './routes/userRoutes';
+import postRoutes from './routes/postRoutes';
 
 connectDB();
-const app = express();
+const app: Express = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
 
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
   res.send('Server is ready');
 });
 
