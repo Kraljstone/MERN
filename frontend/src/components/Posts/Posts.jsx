@@ -8,11 +8,13 @@ import { useSelector } from 'react-redux';
 const Posts = ({ setCurrentID }) => {
   const { postInfo } = useSelector((state) => state?.post);
 
-  return !postInfo?.length ? (
-    <Loader />
+  return !postInfo?.data?.length ? (
+    <div className={classes.loader}>
+      <Loader />
+    </div>
   ) : (
     <Row className={classes.container} xs={12}>
-      {postInfo.map((post) => (
+      {postInfo?.data?.map((post) => (
         <Col key={post?._id} className='mt-5'>
           <Post post={post} setCurrentID={setCurrentID} />
         </Col>

@@ -4,10 +4,11 @@ const POSTS_URL = '/api/posts';
 export const postsApiSlice = apiSlice?.injectEndpoints({
   endpoints: (builder) => ({
     getPosts: builder?.query({
-      query: (data) => ({
-        url: `${POSTS_URL}`,
-        body: data,
-      }),
+      query: (page) => {
+        return {
+          url: `${POSTS_URL}?page=${page}`,
+        };
+      },
     }),
     sendPosts: builder?.mutation({
       query: (data) => ({

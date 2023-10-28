@@ -25,8 +25,8 @@ function PostForm({ currentID, setCurrentID }) {
   const dispatch = useDispatch();
   const post = useSelector((state) =>
     currentID
-      ? Array.isArray(state.post.postInfo) &&
-        state.post.postInfo.find((message) => message._id === currentID)
+      ? Array.isArray(state.post.postInfo.data) &&
+        state.post.postInfo.data.find((message) => message._id === currentID)
       : null
   );
 

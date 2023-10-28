@@ -26,7 +26,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    navigate('/home');
+    navigate('/home?page=1');
   }, [navigate]);
 
   return (

@@ -9,9 +9,23 @@ import asyncHandler from 'express-async-handler';
 
 export const getPosts = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    const postMessage = await PostMessage.find();
-    if (postMessage) {
-      res.status(200).json(postMessage);
+    const { page } = req.query;
+
+    if (page) {
+      const LIMIT = 4;
+      const startIndex = (Number(page) - 1) * LIMIT; 
+
+      const total = await PostMessage.countDocuments({});
+      const posts = await PostMessage.find()
+        .sort({ _id: -1 })
+        .limit(LIMIT)
+        .skip(startIndex);
+
+      res.json({
+        data: posts,
+        currentPage: Number(page),
+        numberOfPages: Math.ceil(total / LIMIT),
+      });
     } else {
       res.status(404);
       throw new Error('Posts not found');

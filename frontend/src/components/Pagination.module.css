@@ -1,0 +1,30 @@
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  margin-top: 24px;
+}
+
+.paginationItem {
+  margin: 4px;
+  padding: 7px 20px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 24px;
+  background-color: transparent;
+  color: rgb(255, 255, 255);
+}
+
+.paginationItemActive {
+  margin: 4px;
+  padding: 7px 20px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 24px;
+  background-color: #0d6dfd8f;
+  color: rgb(255, 255, 255);
+}

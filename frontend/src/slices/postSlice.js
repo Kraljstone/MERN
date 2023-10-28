@@ -9,33 +9,33 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     createPostStore: (state, action) => {
-      state.postInfo.push(action.payload);
+      state.postInfo?.data?.push(action?.payload);
     },
     updatePostStore: (state, action) => {
-      const updatedPost = action.payload;
-      const postIndex = state.postInfo.findIndex(
-        (post) => post._id === updatedPost._id
+      const updatedPost = action?.payload;
+      const postIndex = state?.postInfo?.data?.findIndex(
+        (post) => post?._id === updatedPost?._id
       );
       if (postIndex !== -1) {
-        state.postInfo[postIndex] = updatedPost;
+        state.postInfo.data[postIndex] = updatedPost;
       }
     },
     likePostStore: (state, action) => {
       const likedPost = action.payload;
-      const postIndex = state.postInfo.findIndex(
-        (post) => post._id === likedPost._id
+      const postIndex = state.postInfo?.data?.findIndex(
+        (post) => post?._id === likedPost?._id
       );
       if (postIndex !== -1) {
-        state.postInfo[postIndex] = likedPost;
+        state.postInfo.data[postIndex] = likedPost;
       }
     },
     deletePostStore: (state, action) => {
-      const postId = action.payload;
-      state.postInfo = state.postInfo.filter((post) => post._id !== postId);
+      const postId = action?.payload;
+      state.postInfo.data = state.postInfo?.data?.filter((post) => post?._id !== postId);
     },
 
     fetchPostStore: (state, action) => {
-      state.postInfo = action.payload;
+      state.postInfo = action?.payload;
     },
   },
 });
