@@ -6,8 +6,8 @@
   "allowImportingTsExtensions": true,
   "main": "index.js",
   "scripts": {
-    "start:dev": "ts-node-dev --respawn backend/server.ts",
-    "server": "nodemon backend/server.ts",
+    "start:dev": "ts-node-dev --respawn backend/src/server.ts",
+    "server": "nodemon backend/src/server.ts",
     "client": "npm run dev --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },

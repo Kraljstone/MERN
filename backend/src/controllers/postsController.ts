@@ -13,7 +13,7 @@ export const getPosts = asyncHandler(
 
     if (page) {
       const LIMIT = 4;
-      const startIndex = (Number(page) - 1) * LIMIT; 
+      const startIndex = (Number(page) - 1) * LIMIT;
 
       const total = await PostMessage.countDocuments({});
       const posts = await PostMessage.find()
