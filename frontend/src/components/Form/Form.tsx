@@ -1,5 +1,4 @@
 import { Form, Button } from 'react-bootstrap';
-import PropTypes from 'prop-types';
 import classes from './Form.module.css';
 import { useEffect, useState } from 'react';
 import FileBase from 'react-file-base64';
@@ -10,23 +9,40 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { updatePostStore, createPostStore } from '../../slices/postSlice';
+import { FormEvent } from 'react';
+import { PostType } from '../types/post.types';
 
-function PostForm({ currentID, setCurrentID }) {
+interface PostFormProps {
+  currentID: string | null;
+  setCurrentID: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+interface RootState {
+  post?: {
+      postInfo?: {
+          data?: PostType;
+      };
+  };
+}
+
+const PostForm: React.FC<PostFormProps> = ({ currentID, setCurrentID }) => {
   const [postData, setPostData] = useState({
     creator: '',
     title: '',
     message: '',
-    tags: '',
+    tags: [],
     selectedFile: '',
   });
 
   const [sendPosts] = useSendPostsMutation();
   const [updatePost] = useUpdatePostMutation();
   const dispatch = useDispatch();
-  const post = useSelector((state) =>
+  const post = useSelector((state: RootState) =>
     currentID
-      ? Array.isArray(state.post.postInfo.data) &&
-        state.post.postInfo.data.find((message) => message._id === currentID)
+      ? Array.isArray(state.post?.postInfo?.data) &&
+        state.post.postInfo.data.find(
+          (message: PostType) => message._id === currentID
+        )
       : null
   );
 
@@ -36,7 +52,7 @@ function PostForm({ currentID, setCurrentID }) {
     }
   }, [post]);
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (currentID) {
@@ -45,8 +61,9 @@ function PostForm({ currentID, setCurrentID }) {
           id: currentID,
           data: postData,
         }).unwrap();
+
         dispatch(updatePostStore({ ...res, likeCount: post.likeCount }));
-      } catch (err) {
+      } catch (err: any) {
         toast.error(err?.data?.message || err?.error);
       }
 
@@ -54,9 +71,9 @@ function PostForm({ currentID, setCurrentID }) {
     }
 
     try {
-      const res = await sendPosts({ ...postData }).unwrap();
-      dispatch(createPostStore({ ...res }));
-    } catch (err) {
+      const res = await sendPosts(postData).unwrap();
+      dispatch(createPostStore(res));
+    } catch (err: any) {
       toast.error(err?.data?.message || err?.error);
     }
 
@@ -69,7 +86,7 @@ function PostForm({ currentID, setCurrentID }) {
       creator: '',
       title: '',
       message: '',
-      tags: '',
+      tags: [],
       selectedFile: '',
     });
   };
@@ -80,7 +97,6 @@ function PostForm({ currentID, setCurrentID }) {
         <Form.Label>Creator</Form.Label>
         <Form.Control
           type='text'
-          variant='outlined'
           name='creator'
           value={postData?.creator}
           onChange={(e) =>
@@ -120,7 +136,10 @@ function PostForm({ currentID, setCurrentID }) {
           name='tags'
           value={postData?.tags}
           onChange={(e) =>
-            setPostData({ ...postData, tags: e?.target?.value.split(',') })
+            setPostData({
+              ...postData,
+              tags: e?.target?.value.split(',') as never[],
+            })
           }
         />
       </Form.Group>
@@ -129,7 +148,7 @@ function PostForm({ currentID, setCurrentID }) {
         <FileBase
           type='file'
           multiple={false}
-          onDone={({ base64 }) =>
+          onDone={({ base64 }: { base64: string }) =>
             setPostData({ ...postData, selectedFile: base64 })
           }
         />
@@ -144,11 +163,6 @@ function PostForm({ currentID, setCurrentID }) {
       </Button>
     </Form>
   );
-}
+};
 
 export default PostForm;
-
-PostForm.propTypes = {
-  setCurrentID: PropTypes.func,
-  currentID: PropTypes.string,
-};

@@ -1,6 +1,5 @@
 import { Card } from 'react-bootstrap';
 import classes from './Post.module.css';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import {
   useDeletePostMutation,
@@ -9,8 +8,14 @@ import {
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { likePostStore, deletePostStore } from '../../../slices/postSlice';
+import { PostType } from 'src/components/types/post.types';
 
-function Post({ post, setCurrentID }) {
+interface PostProps {
+  setCurrentID: (id: string) => void;
+  post: PostType;
+}
+
+const Post: React.FC<PostProps> = ({ post, setCurrentID }) => {
   const {
     createdAt,
     creator,
@@ -30,7 +35,7 @@ function Post({ post, setCurrentID }) {
     try {
       await deletePost(_id).unwrap();
       return dispatch(deletePostStore(_id));
-    } catch (err) {
+    } catch (err: any) {
       return toast.error(err?.data?.message || err?.error);
     }
   };
@@ -42,8 +47,22 @@ function Post({ post, setCurrentID }) {
           id: _id,
           data: likeCount,
         }).unwrap();
-        return dispatch(likePostStore({ ...res }));
-      } catch (err) {
+
+        const isPostType = (obj: any): obj is PostType => {
+          return (
+            obj &&
+            typeof obj === 'object' &&
+            'createdAt' in obj &&
+            'creator' in obj &&
+            'likeCount' in obj &&
+            'selectedFile' in obj
+          );
+        };
+
+        if (isPostType(res)) {
+          return dispatch(likePostStore(res));
+        }
+      } catch (err: any) {
         return toast.error(err?.data?.message || err?.error);
       }
     }
@@ -89,20 +108,6 @@ function Post({ post, setCurrentID }) {
       </Card.Body>
     </Card>
   );
-}
+};
 
 export default Post;
-
-Post.propTypes = {
-  post: PropTypes.shape({
-    title: PropTypes.string,
-    creator: PropTypes.string,
-    createdAt: PropTypes.string,
-    message: PropTypes.string,
-    _id: PropTypes.string,
-    selectedFile: PropTypes.string,
-    tags: PropTypes.arrayOf(PropTypes.string),
-    likeCount: PropTypes.number,
-  }),
-  setCurrentID: PropTypes.func,
-};

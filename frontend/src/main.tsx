@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
+import App from './App.js';
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -9,13 +9,13 @@ import {
 } from 'react-router-dom';
 import store from './store.js';
 import { Provider } from 'react-redux';
-import HomeScreen from './screens/HomeScreen.jsx';
+import HomeScreen from './screens/HomeScreen.tsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import LoginScreen from './screens/LoginScreen.jsx';
-import RegisterScreen from './screens/RegisterScreen.jsx';
-import ProfileScreen from './screens/ProfileScreen.jsx';
-import PrivateRoute from './components/PrivateRoute.jsx';
+import LoginScreen from './screens/LoginScreen.tsx';
+import RegisterScreen from './screens/RegisterScreen.tsx';
+import ProfileScreen from './screens/ProfileScreen.tsx';
+import PrivateRoute from './components/PrivateRoute.tsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,7 +30,10 @@ const router = createBrowserRouter(
   )
 );
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const rootElement = document.getElementById('root');
+const fragment = document.createDocumentFragment();
+
+ReactDOM.createRoot(rootElement ? rootElement : fragment).render(
   <Provider store={store}>
     <React.StrictMode>
       <RouterProvider router={router} />

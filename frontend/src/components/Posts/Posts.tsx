@@ -1,12 +1,18 @@
-import PropTypes from 'prop-types';
 import Post from './Post/Post';
 import { Row, Col } from 'react-bootstrap';
 import classes from './Posts.module.css';
 import Loader from '../Loader';
 import { useSelector } from 'react-redux';
+import { CurrentPagePosts } from '../types/post.types';
 
-const Posts = ({ setCurrentID }) => {
-  const { postInfo } = useSelector((state) => state?.post);
+interface PostsProps {
+  setCurrentID: (id: string) => void; 
+}
+
+const Posts: React.FC<PostsProps> = ({ setCurrentID }) => {
+  const { postInfo } = useSelector(
+    (state: { post?: { postInfo?: CurrentPagePosts } }) => state?.post || {}
+  );
 
   return !postInfo?.data?.length ? (
     <div className={classes.loader}>
@@ -24,7 +30,3 @@ const Posts = ({ setCurrentID }) => {
 };
 
 export default Posts;
-
-Posts.propTypes = {
-  setCurrentID: PropTypes.func,
-};

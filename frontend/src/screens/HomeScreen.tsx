@@ -12,7 +12,7 @@ function useQuery() {
 }
 
 const HomeScreen = () => {
-  const [currentID, setCurrentID] = useState(null);
+  const [currentID, setCurrentID] = useState<string | null>(null);
   const query = useQuery();
   const page = query?.get('page') || '1';
 
