@@ -2,7 +2,6 @@
   "name": "mern-portfolio",
   "version": "1.0.0",
   "description": "",
-  "type": "ESNext",
   "allowImportingTsExtensions": true,
   "main": "index.js",
   "scripts": {

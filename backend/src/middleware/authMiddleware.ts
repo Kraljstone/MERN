@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import {  Response, NextFunction } from 'express';
 import { CustomJwtPayload } from './authMiddleware.interface';
 import jwt from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
