@@ -8,7 +8,11 @@ import classes from './Pagination.module.css';
 import { CurrentPagePosts } from './types/post.types';
 import { PostType } from './types/post.types';
 
-const Pagination = ({ page }: { page: string }) => {
+interface PaginationProps {
+  page: string;
+}
+
+const Pagination: React.FC<PaginationProps> = ({ page }) => {
   const { postInfo } = useSelector(
     (state: { post?: { postInfo?: CurrentPagePosts } }) => state?.post || {}
   );
@@ -22,7 +26,7 @@ const Pagination = ({ page }: { page: string }) => {
     }
   }, [dispatch, data]);
 
-  let active = postInfo?.currentPage;
+  let active = postInfo?.currentPage as number;
   let items = [];
 
   if (postInfo && postInfo.numberOfPages) {
@@ -51,4 +55,3 @@ const Pagination = ({ page }: { page: string }) => {
 };
 
 export default Pagination;
-

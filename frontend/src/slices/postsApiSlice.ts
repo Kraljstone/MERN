@@ -60,7 +60,7 @@ export const postsApiSlice = apiSlice?.injectEndpoints({
         };
       },
     }),
-    deletePost: builder?.mutation<void, string>({
+    deletePost: builder?.mutation<{ message: string }, string>({
       query: (id) => {
         return {
           url: `${POSTS_URL}/${id}`,
@@ -68,7 +68,7 @@ export const postsApiSlice = apiSlice?.injectEndpoints({
         };
       },
     }),
-    likePost: builder?.mutation<void, LikePostParams>({
+    likePost: builder?.mutation<PostType, LikePostParams>({
       query: ({ id, data }) => {
         return {
           url: `${POSTS_URL}/${id}/likePost`,

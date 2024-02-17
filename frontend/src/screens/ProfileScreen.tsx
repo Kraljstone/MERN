@@ -9,10 +9,10 @@ import { setCredentials } from '../slices/authSlice';
 import { UserInfo } from '../components/types/auth.types';
 
 const ProfileScreen = () => {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
 
   const dispatch = useDispatch();
 

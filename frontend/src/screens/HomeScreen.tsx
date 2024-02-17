@@ -11,10 +11,10 @@ function useQuery() {
   return new URLSearchParams(useLocation()?.search);
 }
 
-const HomeScreen = () => {
+const HomeScreen: React.FC = () => {
   const [currentID, setCurrentID] = useState<string | null>(null);
   const query = useQuery();
-  const page = query?.get('page') || '1';
+  const page = (query?.get('page') as string) || '1';
 
   return (
     <Container fluid>

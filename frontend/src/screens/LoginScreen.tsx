@@ -10,8 +10,8 @@ import Loader from '../components/Loader';
 import { UserInfo } from '../components/types/auth.types';
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('') ;
+  const [password, setPassword] = useState<string>('');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

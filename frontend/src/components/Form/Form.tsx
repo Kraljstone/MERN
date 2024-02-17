@@ -19,19 +19,23 @@ interface PostFormProps {
 
 interface RootState {
   post?: {
-      postInfo?: {
-          data?: PostType;
-      };
+    postInfo?: {
+      data?: PostType;
+    };
   };
 }
 
 const PostForm: React.FC<PostFormProps> = ({ currentID, setCurrentID }) => {
-  const [postData, setPostData] = useState({
+  const [postData, setPostData] = useState<PostType>({
+    createdAt: '',
     creator: '',
+    likeCount: 0,
     title: '',
     message: '',
     tags: [],
     selectedFile: '',
+    __v: 0,
+    _id: '',
   });
 
   const [sendPosts] = useSendPostsMutation();
@@ -52,7 +56,9 @@ const PostForm: React.FC<PostFormProps> = ({ currentID, setCurrentID }) => {
     }
   }, [post]);
 
-  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (
+    e: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
 
     if (currentID) {
@@ -83,11 +89,15 @@ const PostForm: React.FC<PostFormProps> = ({ currentID, setCurrentID }) => {
   const clear = () => {
     setCurrentID(null);
     setPostData({
+      createdAt: '',
       creator: '',
+      likeCount: 0,
       title: '',
       message: '',
       tags: [],
       selectedFile: '',
+      __v: 0,
+      _id: '',
     });
   };
 
