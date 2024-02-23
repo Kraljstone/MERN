@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (res: Response) => {
   res.send('Server is ready');
 });
 

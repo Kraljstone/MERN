@@ -101,7 +101,6 @@ export const getUserProfile = asyncHandler(
 
 export const updateUserProfile = asyncHandler(
   async (req: ExtendedUserRequest, res: Response): Promise<void> => {
-    console.log(req.user?._id);
     const user = await User.findById(req.user?._id);
 
     if (user) {
