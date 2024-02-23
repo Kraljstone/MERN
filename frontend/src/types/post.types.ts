@@ -6,8 +6,8 @@ export interface PostType {
   message?: string;
   tags: string[];
   title: string;
-  __v: number;
   _id: string;
+  userId: string;
 }
 
 export interface CurrentPagePosts {

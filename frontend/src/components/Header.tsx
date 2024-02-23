@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../slices/authSlice';
-import { UserInfo } from './types/auth.types';
+import { UserInfo } from '../types/auth.types';
 import { useEffect } from 'react';
 
 const Header = () => {

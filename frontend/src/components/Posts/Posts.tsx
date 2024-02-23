@@ -3,10 +3,10 @@ import { Row, Col } from 'react-bootstrap';
 import classes from './Posts.module.css';
 import Loader from '../Loader';
 import { useSelector } from 'react-redux';
-import { CurrentPagePosts } from '../types/post.types';
+import { CurrentPagePosts } from '../../types/post.types';
 
 interface PostsProps {
-  setCurrentID: (id: string) => void; 
+  setCurrentID: (id: string) => void;
 }
 
 const Posts: React.FC<PostsProps> = ({ setCurrentID }) => {

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PostType } from '../components/types/post.types';
-import { CurrentPagePosts } from '../components/types/post.types';
+import { PostType } from '../types/post.types';
+import { CurrentPagePosts } from '../types/post.types';
 
 interface PostsState {
   postInfo: {

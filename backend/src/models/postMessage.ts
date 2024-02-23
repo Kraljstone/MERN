@@ -16,6 +16,7 @@ const postSchema = new Schema({
     type: Date,
     default: new Date(),
   },
+  userId: String,
 });
 
 const PostMessage = mongoose.model('PostMessage', postSchema);

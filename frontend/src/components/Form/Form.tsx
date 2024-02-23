@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { updatePostStore, createPostStore } from '../../slices/postSlice';
 import { FormEvent } from 'react';
-import { PostType } from '../types/post.types';
+import { PostType } from 'src/types/post.types';
+import { UserInfo } from 'src/types/auth.types';
 
 interface PostFormProps {
   currentID: string | null;
@@ -25,8 +26,18 @@ interface RootState {
   };
 }
 
+export interface FormType {
+  createdAt: string;
+  creator: string;
+  likeCount: number;
+  selectedFile: string;
+  message?: string;
+  tags: string[];
+  title: string;
+}
+
 const PostForm: React.FC<PostFormProps> = ({ currentID, setCurrentID }) => {
-  const [postData, setPostData] = useState<PostType>({
+  const [postData, setPostData] = useState<FormType>({
     createdAt: '',
     creator: '',
     likeCount: 0,
@@ -34,8 +45,6 @@ const PostForm: React.FC<PostFormProps> = ({ currentID, setCurrentID }) => {
     message: '',
     tags: [],
     selectedFile: '',
-    __v: 0,
-    _id: '',
   });
 
   const [sendPosts] = useSendPostsMutation();
@@ -50,6 +59,10 @@ const PostForm: React.FC<PostFormProps> = ({ currentID, setCurrentID }) => {
       : null
   );
 
+  const { userInfo } = useSelector(
+    (state: { auth?: { userInfo?: UserInfo } }) => state?.auth || {}
+  );
+
   useEffect(() => {
     if (post) {
       setPostData(post);
@@ -60,24 +73,42 @@ const PostForm: React.FC<PostFormProps> = ({ currentID, setCurrentID }) => {
     e: FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
-
     if (currentID) {
-      try {
-        const res = await updatePost({
-          id: currentID,
-          data: postData,
-        }).unwrap();
+      if (post.userId === userInfo?._id) {
+        try {
+          const res = await updatePost({
+            id: currentID,
+            data: postData,
+          }).unwrap();
 
-        dispatch(updatePostStore({ ...res, likeCount: post.likeCount }));
-      } catch (err: any) {
-        toast.error(err?.data?.message || err?.error);
+          dispatch(updatePostStore({ ...res, likeCount: post.likeCount }));
+        } catch (err: any) {
+          toast.error(err?.data?.message || err?.error);
+        }
       }
 
+      toast.error(
+        'You are not authorized to edit this post as it belongs to another user.'
+      );
+      return;
+    }
+
+    if (
+      postData.title === '' &&
+      postData.message === '' &&
+      postData.creator === ''
+    ) {
+      toast.error('Please fill in all required fields.');
       return;
     }
 
     try {
-      const res = await sendPosts(postData).unwrap();
+      const res = await sendPosts({
+        ...postData,
+        userId: userInfo?._id,
+      }).unwrap();
+
+      console.log();
       dispatch(createPostStore(res));
     } catch (err: any) {
       toast.error(err?.data?.message || err?.error);
@@ -96,8 +127,6 @@ const PostForm: React.FC<PostFormProps> = ({ currentID, setCurrentID }) => {
       message: '',
       tags: [],
       selectedFile: '',
-      __v: 0,
-      _id: '',
     });
   };
 

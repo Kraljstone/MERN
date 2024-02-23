@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const App:React.FC = () => {
+const App: React.FC = () => {
   return (
     <div>
       <Header />

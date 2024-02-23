@@ -5,8 +5,7 @@ import { useEffect } from 'react';
 import { fetchPostStore } from '../slices/postSlice';
 import { Link } from 'react-router-dom';
 import classes from './Pagination.module.css';
-import { CurrentPagePosts } from './types/post.types';
-import { PostType } from './types/post.types';
+import { CurrentPagePosts } from 'src/types/post.types';
 
 interface PaginationProps {
   page: string;
@@ -21,7 +20,7 @@ const Pagination: React.FC<PaginationProps> = ({ page }) => {
 
   useEffect(() => {
     if (data) {
-      const postInfo: CurrentPagePosts | PostType[] = data;
+      const postInfo: CurrentPagePosts = data;
       dispatch(fetchPostStore(postInfo));
     }
   }, [dispatch, data]);

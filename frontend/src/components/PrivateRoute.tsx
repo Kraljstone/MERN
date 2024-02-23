@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { UserInfo } from './types/auth.types';
+import { UserInfo } from '../types/auth.types';
 
 const PrivateRoute = () => {
   const { userInfo } = useSelector(

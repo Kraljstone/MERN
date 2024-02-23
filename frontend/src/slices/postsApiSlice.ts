@@ -1,6 +1,6 @@
 import { apiSlice } from './apiSlice';
-import { PostType } from '../components/types/post.types';
-import { CurrentPagePosts } from '../components/types/post.types';
+import { PostType } from '../types/post.types';
+import { CurrentPagePosts } from '../types/post.types';
 const POSTS_URL = '/api/posts';
 
 interface GetPostsParams {
@@ -13,6 +13,7 @@ interface SendPostsData {
   selectedFile?: string;
   tags?: string[];
   title?: string;
+  userId: string | undefined;
 }
 
 interface UpdatePostParams {
@@ -37,7 +38,7 @@ interface LikePostParams {
 
 export const postsApiSlice = apiSlice?.injectEndpoints({
   endpoints: (builder) => ({
-    getPosts: builder?.query<PostType[] | CurrentPagePosts, GetPostsParams>({
+    getPosts: builder?.query<CurrentPagePosts, GetPostsParams>({
       query: ({ page }) => {
         return {
           url: `${POSTS_URL}?page=${page}`,

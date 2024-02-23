@@ -7,10 +7,10 @@ import { useLoginMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
-import { UserInfo } from '../components/types/auth.types';
+import { UserInfo } from '../types/auth.types';
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState<string>('') ;
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const dispatch = useDispatch();

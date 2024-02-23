@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
 import { useUpdateUserMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
-import { UserInfo } from '../components/types/auth.types';
+import { UserInfo } from '../types/auth.types';
 
 const ProfileScreen = () => {
   const [email, setEmail] = useState<string>('');

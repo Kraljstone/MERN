@@ -8,7 +8,9 @@ import {
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { likePostStore, deletePostStore } from '../../../slices/postSlice';
-import { PostType } from 'src/components/types/post.types';
+import { PostType } from 'src/types/post.types';
+import { useSelector } from 'react-redux';
+import { UserInfo } from 'src/types/auth.types';
 
 interface PostProps {
   setCurrentID: (id: string) => void;
@@ -25,19 +27,30 @@ const Post: React.FC<PostProps> = ({ post, setCurrentID }) => {
     tags,
     title,
     _id,
+    userId,
   } = post;
 
   const [deletePost] = useDeletePostMutation();
   const [likePost] = useLikePostMutation();
   const dispatch = useDispatch();
 
+  const { userInfo } = useSelector(
+    (state: { auth?: { userInfo?: UserInfo } }) => state?.auth || {}
+  );
+
   const deletePostHandler = async () => {
-    try {
-      await deletePost(_id).unwrap();
-      return dispatch(deletePostStore(_id));
-    } catch (err: any) {
-      return toast.error(err?.data?.message || err?.error);
+    if (userInfo?._id === userId) {
+      try {
+        await deletePost(_id).unwrap();
+        return dispatch(deletePostStore(_id));
+      } catch (err: any) {
+        return toast.error(err?.data?.message || err?.error);
+      }
     }
+
+    toast.error(
+      'You are not authorized to delete this post as it belongs to another user.'
+    );
   };
 
   const likePostHandler = async () => {
